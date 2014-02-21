@@ -13,6 +13,7 @@ public class TermParing {
 		// Frame is a term
 		// Check whether the pair is potential pair or not 
 		
+		
 		return null;
 	}
 	

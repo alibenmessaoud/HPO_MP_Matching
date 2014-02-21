@@ -8,7 +8,7 @@ public class Trainer {
 	
 
 	// Using liblinear
-	public void train(List<Pair> pairs, String modelRes){
+	public void train(List<String> featureVectors, String modelRes){
 		
 	}
 }
