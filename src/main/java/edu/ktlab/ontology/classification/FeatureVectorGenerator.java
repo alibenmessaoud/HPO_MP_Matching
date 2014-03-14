@@ -1,23 +1,27 @@
 package edu.ktlab.ontology.classification;
 
+import edu.ktlab.ontology.classification.analyze.FeatureAnalyzer;
+import edu.ktlab.ontology.io.OntologyLoader;
 import edu.ktlab.ontology.paring.Pair;
 
 public class FeatureVectorGenerator {
 	
 	private FeatureAnalyzer[] analyzers;
 	
-	public FeatureVectorGenerator(FeatureAnalyzer[] analyzers) {
+	public FeatureVectorGenerator(FeatureAnalyzer... analyzers) {
 		super();
 		this.analyzers = analyzers;
 	}
 
-	public String generate(Pair p){
-		
+	public void analyze(Pair p){
 		for(FeatureAnalyzer analyzer: analyzers){
-			// Analyse features of p
+			String hpName = OntologyLoader.getHPTermName(p.getHPId());
+			String mpName = OntologyLoader.getMPTermName(p.getMPId());
+
+			Feature[] features = analyzer.analyze(hpName.toLowerCase(), mpName.toLowerCase());
+			if(features == null || features.length == 0) continue;
+			p.addFeatures(features);
 		}
-		
-		return null;
 	}
 	
 	public FeatureAnalyzer[] getAnalyzers() { return analyzers; }

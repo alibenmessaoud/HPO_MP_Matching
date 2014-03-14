@@ -23,7 +23,14 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-	</repositories>
+    <repository>
+       <id>SecondString - for SoftTFIDF</id>
+       <url>http://repository.pentaho.org/artifactory/repo/</url>
+       <snapshots>
+          <enabled>true</enabled>
+       </snapshots>
+     </repository>
+  </repositories>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -45,6 +52,11 @@
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
 			<version>1.7.1</version>
-		</dependency>
+    </dependency>
+    <dependency>
+       <groupId>secondstring</groupId>
+       <artifactId>secondstring</artifactId>
+       <version>20060615</version>
+    </dependency>
 	</dependencies>
 </project>

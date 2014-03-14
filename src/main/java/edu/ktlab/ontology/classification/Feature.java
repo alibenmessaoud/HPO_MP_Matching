@@ -3,11 +3,11 @@ package edu.ktlab.ontology.classification;
 public class Feature {
 	private int id;
 	private String feature;
+	private double weight = 1;
 	
 	public Feature(){}
 	
-	public Feature(int id, String feature){
-		this.id = id;
+	public Feature(String feature){
 		this.feature = feature;
 	}
 	
@@ -16,4 +16,7 @@ public class Feature {
 	
 	public String getFeature() { return feature; }
 	public void setFeature(String feature) { this.feature = feature; }
+
+	public double getWeight() { return weight; }
+	public void setWeight(double weight) { this.weight = weight; }
 }
