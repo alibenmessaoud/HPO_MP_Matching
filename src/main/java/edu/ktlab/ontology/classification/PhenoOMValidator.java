@@ -1,5 +1,5 @@
 package edu.ktlab.ontology.classification;
 
-public class Validator {
+public class PhenoOMValidator {
 
 }

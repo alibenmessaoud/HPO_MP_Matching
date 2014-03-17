@@ -15,11 +15,16 @@ import edu.ktlab.ontology.classification.analyze.DifferentTokenAnalyzer;
 import edu.ktlab.ontology.classification.analyze.SoftTFIDAnalyzer;
 import edu.ktlab.ontology.io.PairLoader;
 import edu.ktlab.ontology.paring.Pair;
+import edu.ktlab.ontology.utils.RandomIntGroupSelection;
+import edu.ktlab.ontology.utils.StatisticMap;
 
-public class CrossValidator {
+public class PhenoOMCrossValidator2 {
 	private FeatureVectorGenerator featureVectorGenerator;
 	private FeatureSet featureSet;
 	private Pair[] trainingPairs;
+	private Pair[] testPairs;
+
+	private StatisticMap statistic = new StatisticMap();
 
 	private String directoryPair = "data";
 	private String fileTraining = "model/OntologyMatching.training";
@@ -27,21 +32,53 @@ public class CrossValidator {
 	private String fileWordlist = "model/OntologyMatching.worldlist";
 
 	// Using liblinear
-	public void validate(int s, double c, int fold) throws Exception{
-		long current = System.currentTimeMillis();
-		featureSet = FeatureSet.createFeatureSet();
-		trainingPairs = PairLoader.loadDirectory(directoryPair);
-		SoftTFIDFBuilder.getIntance().build(trainingPairs);
+	public void validate(int s, double c, int folds, boolean isBaselineTest) throws Exception{
 		featureVectorGenerator = createFeatureVectorGenerator();
+		Pair[] loadedPairs = PairLoader.loadDirectory(directoryPair);
 
-		createVectorTrainingFile();
+		RandomIntGroupSelection randomSelection = 
+				new RandomIntGroupSelection(loadedPairs.length, folds);
+		randomSelection.populate();
 
-		System.out.println("\n**********************" 
-				+ " Evaluation method " + s + " with c=" + c
-				+ " *************************************\n");
-		Train.main(new String[] { "-v", Integer.toString(fold), "-c", Double.toString(c), "-s", Integer.toString(s), 
+		for(int i = 1 ; i <= folds; i++){
+			System.out.println("\n***************** Fold #" + i + " ******************\n");
+			int[] testIdxs = randomSelection.getPartAt(i);
+			int[] trainIdxs = randomSelection.combinePartsExceptPartAt(i);
+
+			trainingPairs = getPairsByIndex(trainIdxs, loadedPairs);
+			testPairs = getPairsByIndex(testIdxs, loadedPairs);
+
+			train(c, s);
+			test(isBaselineTest);
+		}
+		statistic.detailedReport();
+	}
+
+	private Pair[] getPairsByIndex(int[] resIdxs, Pair[] loadedPairs){
+		Pair[] rPairs = new Pair[resIdxs.length];
+		for(int i = 0; i < resIdxs.length; i++)
+			rPairs[i] = loadedPairs[resIdxs[i]];
+		return rPairs;
+	}
+
+	public void train(double c, int s) throws Exception {
+		featureSet = FeatureSet.createFeatureSet();
+		SoftTFIDFBuilder.getIntance().build(trainingPairs);
+		Train.main(new String[] { "-c", Double.toString(c), "-s", Integer.toString(s), 
 				fileTraining, fileModel});
-		System.out.println(System.currentTimeMillis() - current);
+	}
+
+	public void test(boolean isBaselineTest) throws Exception{
+		Classifier classifier = null;
+		if(isBaselineTest){
+			classifier = new BaselineClassifier();
+			classifier.init(trainingPairs);
+		} else classifier = new PhenoOMClassifier();
+		
+		for(Pair p: testPairs){
+			String predictLabel = classifier.classify(p);
+			statistic.add(p.getLabel(), predictLabel);
+		}
 	}
 
 	public FeatureVectorGenerator createFeatureVectorGenerator(){
@@ -52,7 +89,7 @@ public class CrossValidator {
 				);
 	}
 
-	public void createVectorTrainingFile() throws IOException{
+	public void createVectorTrainingFile(Pair[] trainingPairs) throws IOException{
 		BufferedWriter writer = new BufferedWriter(new FileWriter(new File(fileTraining)));
 
 		for(Pair p: trainingPairs){
@@ -73,7 +110,6 @@ public class CrossValidator {
 	}
 
 	public static void main(String[] args) throws Exception{
-		new CrossValidator().validate(6, 0.5, 10);
+		new PhenoOMCrossValidator2().validate(2, 1, 10, false);
 	}
-
 }

@@ -37,6 +37,10 @@ public class SoftTFIDFBuilder implements Serializable {
 		wrappers = new ArrayList<StringWrapper>();
 	}
 
+	public void build(List<Pair> pairs){
+		build(pairs.toArray( new Pair[pairs.size()]));
+	}
+	
 	public void build(Pair[] pairs){
 		for(Pair p: pairs){
 			String hpName = OntologyLoader.getHPTermName(p.getHPId());

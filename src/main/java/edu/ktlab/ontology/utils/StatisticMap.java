@@ -46,7 +46,7 @@ public class StatisticMap {
 		return f1;
 	}
 	
-	public void report(){
+	public void shortReport(){
 		double precision = getPrecision();
 		double recall = getRecall();
 		double f1 = getF1();
@@ -54,6 +54,15 @@ public class StatisticMap {
 		System.out.println("Precision = " + precision);
 		System.out.println("Recall = " + recall);
 		System.out.println("F = " + f1);
+	}
+	
+	public void detailedReport(){
+		System.out.println("\nReport: ");
+		for(String key: statistic.keySet()){
+			System.out.println(key + " = " + statistic.get(key));
+		}
+		System.out.println("****************************");
+		shortReport();
 	}
 
 }

@@ -7,17 +7,17 @@ import edu.ktlab.ontology.io.PairLoader;
 import edu.ktlab.ontology.paring.Pair;
 import edu.ktlab.ontology.utils.StatisticMap;
 
-public class BaselineValidator {
+public class BaselineClassifier implements Classifier{
 	
 	private static String directoryPair = "data";
 	private static SoftTFIDF classifier;
 	private static double THRESHOLD = 0.85;
 
-	public BaselineValidator(){
+	public BaselineClassifier(){
 		this(directoryPair);
 	}
 	
-	public BaselineValidator(String directory){
+	public BaselineClassifier(String directory){
 		try {
 			init(directory);
 		} catch (Exception e) {
@@ -49,7 +49,7 @@ public class BaselineValidator {
 	}
 
 	public static void main(String[] args) throws Exception{
-		BaselineValidator classifier = new BaselineValidator();
+		BaselineClassifier classifier = new BaselineClassifier();
 		Pair[] pairs = PairLoader.loadDirectory("data");
 
 		StatisticMap statistic = new StatisticMap();
@@ -58,7 +58,7 @@ public class BaselineValidator {
 			String predictLabel = classifier.classify(p);
 			statistic.add(p.getLabel(), predictLabel);
 		}
-		statistic.report();
+		statistic.shortReport();
 	}
 	
 
