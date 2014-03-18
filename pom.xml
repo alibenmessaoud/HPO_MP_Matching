@@ -30,7 +30,7 @@
           <enabled>true</enabled>
        </snapshots>
      </repository>
-  </repositories>
+   </repositories>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -57,6 +57,34 @@
        <groupId>secondstring</groupId>
        <artifactId>secondstring</artifactId>
        <version>20060615</version>
+     </dependency>
+     <dependency>
+        <groupId>org.semanticweb.elk</groupId>
+        <artifactId>elk-owlapi</artifactId>
+        <version>0.4.1</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/libs/org.semanticweb.elk.0.4.1.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>org.semanticweb.hermit</groupId>
+      <artifactId>hermit</artifactId>
+      <version>1.3.8</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/libs/HermiT1.3.8.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>org.semanticweb.more</groupId>
+      <artifactId>MORe.standalone</artifactId>
+      <version>0.1.6</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/libs/MORe.standalone.0.1.6.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>uk.ac</groupId>
+      <artifactId>logmap-matcher</artifactId>
+      <version>2.4</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/libs/logmap.2.4.jar</systemPath>
     </dependency>
 	</dependencies>
 </project>

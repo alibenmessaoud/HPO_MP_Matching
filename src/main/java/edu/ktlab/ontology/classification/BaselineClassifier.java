@@ -58,7 +58,7 @@ public class BaselineClassifier implements Classifier{
 			String predictLabel = classifier.classify(p);
 			statistic.add(p.getLabel(), predictLabel);
 		}
-		statistic.shortReport();
+		statistic.shortGeneralReport();
 	}
 	
 

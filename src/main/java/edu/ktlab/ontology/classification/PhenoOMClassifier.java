@@ -8,7 +8,7 @@ import de.bwaldvogel.liblinear.FeatureNode;
 import de.bwaldvogel.liblinear.Linear;
 import de.bwaldvogel.liblinear.Model;
 import edu.ktlab.ontology.classification.analyze.AcronymAnalyzer;
-import edu.ktlab.ontology.classification.analyze.CharacterBigramsAnalyzer;
+import edu.ktlab.ontology.classification.analyze.LengthAnalyzer;
 import edu.ktlab.ontology.classification.analyze.CommonTokenAnalyzer;
 import edu.ktlab.ontology.classification.analyze.DifferentTokenAnalyzer;
 import edu.ktlab.ontology.classification.analyze.SoftTFIDAnalyzer;
@@ -28,7 +28,7 @@ public class PhenoOMClassifier implements Classifier {
 
 	public FeatureVectorGenerator createFeatureVectorGenerator(){
 		return new FeatureVectorGenerator(
-				new AcronymAnalyzer(), new CharacterBigramsAnalyzer(),
+				new AcronymAnalyzer(), new LengthAnalyzer(),
 				new CommonTokenAnalyzer(), new DifferentTokenAnalyzer(),
 				new SoftTFIDAnalyzer(SoftTFIDFBuilder.getIntance())
 				);
@@ -91,23 +91,6 @@ public class PhenoOMClassifier implements Classifier {
 			String predictLabel = classifier.classify(p);
 			statistic.add(p.getLabel(), predictLabel);
 		}
-		statistic.shortReport();
+		statistic.shortGeneralReport();
 	}
-	/*
-	 *  SVM
-		Precision = 0.9842602308499475
-		Recall = 0.7522052927024859
-		F = 0.8527272727272728
-
-		LR
-		Precision = 0.9238095238095239
-		Recall = 0.6222935044105854
-		F = 0.7436511739338764
-
-		SoftTFIDF
-		Precision = 0.8163481953290871
-		Recall = 0.6166800320769847
-		F = 0.702603928734582
-	 */
-
 }

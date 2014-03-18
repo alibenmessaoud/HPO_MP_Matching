@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import de.bwaldvogel.liblinear.Train;
 import edu.ktlab.ontology.classification.analyze.AcronymAnalyzer;
-import edu.ktlab.ontology.classification.analyze.CharacterBigramsAnalyzer;
+import edu.ktlab.ontology.classification.analyze.LengthAnalyzer;
 import edu.ktlab.ontology.classification.analyze.CommonTokenAnalyzer;
 import edu.ktlab.ontology.classification.analyze.DifferentTokenAnalyzer;
 import edu.ktlab.ontology.classification.analyze.SoftTFIDAnalyzer;
@@ -42,7 +42,7 @@ public class PhenoOMTrainer {
 	
 	public FeatureVectorGenerator createFeatureVectorGenerator(){
 		return new FeatureVectorGenerator(
-				new AcronymAnalyzer(), new CharacterBigramsAnalyzer(),
+				new AcronymAnalyzer(), new LengthAnalyzer(),
 				new CommonTokenAnalyzer(), new DifferentTokenAnalyzer(),
 				new SoftTFIDAnalyzer(SoftTFIDFBuilder.getIntance())
 		);

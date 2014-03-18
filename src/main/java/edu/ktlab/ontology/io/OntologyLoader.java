@@ -16,7 +16,7 @@ import edu.ktlab.ontology.utils.ConstantConfigs;
 public class OntologyLoader {
 	private static OboOntology hpOntology = null;
 	private static OboOntology mpOntology = null;
-	
+
 	public static OboOntology loadOboOntology(String filename){
 		try {
 			OBOFormatParser parser = new OBOFormatParser();
@@ -38,29 +38,45 @@ public class OntologyLoader {
 		}
 		return null;
 	}
-	
+
 	public static OboOntology getHPOntology(){
 		if(hpOntology == null) 
 			hpOntology = loadOboOntology(ConstantConfigs.DEFAULT_HP_ONTOLOGY_RESOURSE);
 		return hpOntology;
 	}
-	
+
 	public static OboOntology getMPOntology(){
 		if(mpOntology == null) 
 			mpOntology = loadOboOntology(ConstantConfigs.DEFAULT_MP_ONTOLOGY_RESOURSE);
 		return mpOntology;
 	}
-	
+
 	public static String getHPTermName(String hpId){
 		return getHPOntology().getTermName(hpId);
 	}
-	
+
 	public static String getMPTermName(String mpId){
 		return getMPOntology().getTermName(mpId);
 	}
 
+	public static String[] getHPSynonyms(String hpId){
+		return getHPOntology().getSynonyms(hpId);
+	}
+	
+	public static String[] getMPSynonyms(String mpId){
+		return getMPOntology().getSynonyms(mpId);
+	}
+	
+	
 	public static void main(String[] args){
-		OboOntology o = OntologyLoader.loadOboOntology("ontology/hp.obo");
-		System.out.println(o.getTermName("HP:0000003"));
+		OboOntology o = OntologyLoader.getHPOntology();
+		System.out.println(o.getTermName("HP:0004408"));
+		o.getSynonyms("HP:0004408");
+
+		System.out.println("*****************************");
+
+		o = OntologyLoader.getMPOntology();
+		System.out.println(o.getTermName("MP:0008119"));
+		o.getSynonyms("MP:0008119");
 	}
 }

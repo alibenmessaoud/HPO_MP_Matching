@@ -40,4 +40,24 @@ public class PairLoader {
 		if(tks.length != 3) return null;
 		return new Pair(tks[0], tks[1], tks[2]);
 	}
+	
+	public static void main(String[] args) throws Exception{
+		Pair[] pairs = PairLoader.loadFile("data/logmap_pair.txt");
+		
+		int count = 0;
+		for(Pair p: pairs){
+			double score = Double.parseDouble(p.getLabel());
+			if(score < 0.8) continue;
+			
+			String hpName = OntologyLoader.getHPTermName(p.getHPId());
+			String mpName = OntologyLoader.getMPTermName(p.getMPId());
+			
+			System.out.println(hpName + " | " + mpName + " | ");
+			count ++;
+		}
+		
+		System.out.println("Total : " + count);
+		
+		
+	}
 }

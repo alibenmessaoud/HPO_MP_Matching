@@ -59,6 +59,10 @@ public class SoftTFIDFBuilder implements Serializable {
 		wrappers.add(distance.prepare(s));
 		return this;
 	}
+	
+	public double score(String s1, String s2){
+		return distance.score(s1, s2);
+	}
 
 	public SoftTFIDF getSoftTFIDF(){ return distance; }
 	public List<StringWrapper> getWrappers(){ return this.wrappers; }
