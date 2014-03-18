@@ -58,7 +58,7 @@
        <artifactId>secondstring</artifactId>
        <version>20060615</version>
      </dependency>
-     <dependency>
+     <!-- <dependency>
         <groupId>org.semanticweb.elk</groupId>
         <artifactId>elk-owlapi</artifactId>
         <version>0.4.1</version>
@@ -85,6 +85,6 @@
       <version>2.4</version>
       <scope>system</scope>
       <systemPath>${project.basedir}/libs/logmap.2.4.jar</systemPath>
-    </dependency>
+    </dependency>-->
 	</dependencies>
 </project>
